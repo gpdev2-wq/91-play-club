@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import Icon from '../components/Icon';
-import { supabase } from '../lib/supabaseClient';
+import { supabase, supabaseConfigured } from '../lib/supabaseClient';
 
 export default function Login() {
   const { login, navigate, showToast } = useApp();
@@ -14,13 +14,22 @@ export default function Login() {
     e.preventDefault();
     if (!email || !password || loading) return;
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      showToast(error.message || 'Login failed. Check your details.');
+    if (!supabaseConfigured) {
+      login();
       setLoading(false);
       return;
     }
-    login();
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        showToast(error.message || 'Login failed. Check your details.');
+        setLoading(false);
+        return;
+      }
+      login();
+    } catch {
+      showToast('Auth service unavailable. Please try again.');
+    }
     setLoading(false);
   };
 

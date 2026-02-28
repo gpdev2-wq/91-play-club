@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { seedDemoData } from '../services/moodHistory';
-import { supabase } from '../lib/supabaseClient';
+import { supabase, supabaseConfigured } from '../lib/supabaseClient';
 
 export type Screen =
   | 'splash' | 'onboarding' | 'login' | 'signup'
@@ -153,8 +153,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => { seedDemoData(); }, []);
 
-  // Supabase auth session sync
+  // Supabase auth session sync (only when env vars are set)
   useEffect(() => {
+    if (!supabaseConfigured) return;
+
     supabase.auth.getSession().then(({ data }) => {
       const session = data.session;
       if (session) {
@@ -166,7 +168,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           screen: s.screen === 'login' || s.screen === 'signup' || s.screen === 'splash' ? 'mood-home' : s.screen,
         }));
       }
-    });
+    }).catch(() => {});
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setState(s => ({
@@ -254,9 +256,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     localStorage.removeItem(PERSIST_KEY);
-    supabase.auth.signOut().finally(() => {
+    if (supabaseConfigured) {
+      supabase.auth.signOut().catch(() => {}).finally(() => {
+        setState(s => ({ ...s, isLoggedIn: false, screen: 'login', history: [] }));
+      });
+    } else {
       setState(s => ({ ...s, isLoggedIn: false, screen: 'login', history: [] }));
-    });
+    }
   }, []);
 
   const showToast = useCallback((msg: string) => {

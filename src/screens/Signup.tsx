@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import Icon from '../components/Icon';
-import { supabase } from '../lib/supabaseClient';
+import { supabase, supabaseConfigured } from '../lib/supabaseClient';
 
 export default function Signup() {
   const { login, navigate, showToast } = useApp();
@@ -14,18 +14,27 @@ export default function Signup() {
     e.preventDefault();
     if (!name || !email || !password || loading) return;
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: name } },
-    });
-    if (error) {
-      showToast(error.message || 'Sign up failed. Try again.');
+    if (!supabaseConfigured) {
+      login();
       setLoading(false);
       return;
     }
-    showToast('Account created! Check your email if confirmation is required.');
-    login();
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: name } },
+      });
+      if (error) {
+        showToast(error.message || 'Sign up failed. Try again.');
+        setLoading(false);
+        return;
+      }
+      showToast('Account created! Check your email if confirmation is required.');
+      login();
+    } catch {
+      showToast('Auth service unavailable. Please try again.');
+    }
     setLoading(false);
   };
 
