@@ -100,7 +100,7 @@ export function downloadExport(format: 'csv' | 'json') {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `moodsync-mood-history.${format}`;
+  a.download = `91playclub-mood-history.${format}`;
   a.click();
   URL.revokeObjectURL(url);
 }

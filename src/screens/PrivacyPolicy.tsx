@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
           <div className="flex items-start gap-3">
             <Icon name="info" className="text-accent-amber flex-shrink-0 mt-0.5" size={18} />
             <p className="text-xs text-white/50 leading-relaxed">
-              For questions about this privacy policy, contact us at privacy@moodsync.app
+              For questions about this privacy policy, contact us at support@91playclub.com
             </p>
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function DiarySaved() {
         </div>
 
         <h1 className="text-2xl font-bold mb-2">Thought Saved</h1>
-        <p className="text-text-dim text-sm mb-8">Mood Synced to Cloud</p>
+        <p className="text-text-dim text-sm mb-8">Mood Saved Successfully</p>
 
         <div className="glass rounded-2xl p-5 w-full mb-8">
           <div className="flex items-center gap-2 mb-3">

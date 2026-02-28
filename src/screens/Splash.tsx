@@ -28,17 +28,23 @@ export default function Splash() {
       <div className="relative z-10 flex flex-col items-center gap-8 animate-fadeIn">
         <div className="relative w-20 h-20">
           <div className="absolute inset-[-8px] rounded-full border border-primary/20" style={{ animation: 'pulse-ring 2.5s ease-in-out infinite' }} />
-          <div className="w-20 h-20 rounded-[22px] bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-xl shadow-primary/20">
-            <span className="text-3xl">🎵</span>
+          <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-accent-teal opacity-80" />
+            <div className="relative w-14 h-14 rounded-full bg-black/80 flex items-center justify-center">
+              <span className="text-2xl font-extrabold tracking-tight">91</span>
+              <div className="absolute -right-0.5 -bottom-0.5 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md shadow-black/60">
+                <span className="material-symbols-outlined text-primary" style={{ fontSize: 14 }}>play_arrow</span>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="text-center">
           <h1 className="text-3xl font-extrabold tracking-tight">
-            <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">Mood</span>
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Sync</span>
+            <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">91 Play </span>
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Club</span>
           </h1>
-          <p className="text-white/30 text-xs mt-1.5 tracking-[0.2em] uppercase">Sync your vibe</p>
+          <p className="text-white/30 text-xs mt-1.5 tracking-[0.2em] uppercase">Play · Connect · Compete</p>
         </div>
 
         <div className="w-48">
